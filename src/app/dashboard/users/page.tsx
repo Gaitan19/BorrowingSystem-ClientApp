@@ -105,16 +105,16 @@ const UsersPage = () => {
   return (
     <AuthGuard allowedRoles={["admin"]}>
       <div className="p-6 max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-lg">
-          <h1 className="text-3xl font-bold text-white">User Management</h1>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-lg">
+          <h1 className="text-2xl md:text-3xl font-bold text-white text-center md:text-left">User Management</h1>
           <button
             onClick={() => {
               setSelectedUser(null);
               setIsModalOpen(true);
             }}
-            className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg 
-              shadow-md hover:shadow-lg transition-all flex items-center gap-2 
-              font-medium text-sm"
+            className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 md:px-6 md:py-3 rounded-lg 
+      shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 
+      font-medium text-xs md:text-sm"
           >
             <PlusIcon className="h-5 w-5 stroke-2" />
             New User

@@ -22,7 +22,13 @@ import Select from "@/components/ui/Select";
 import RequestDetails from "@/components/Requests/Details";
 import { getUsers } from "@/services/users.service";
 import Loading from "@/components/ui/Loading";
-import { PlusIcon, EyeIcon, PencilIcon, TrashIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
+import {
+  PlusIcon,
+  EyeIcon,
+  PencilIcon,
+  TrashIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 
 const REQUEST_STATUS = {
   0: "Pending",
@@ -54,7 +60,7 @@ const RequestsPage = () => {
         const [requestsData, itemsData, usersData] = await Promise.all([
           getRequests(),
           getItems(),
-           getUsers(),
+          getUsers(),
         ]);
 
         setItems(itemsData);
@@ -64,8 +70,7 @@ const RequestsPage = () => {
             ? requestsData
             : requestsData.filter((r) => r.requestedByUserId === user?.id);
 
-
-            console.log("Requests Data", filteredRequests);
+        console.log("Requests Data", filteredRequests);
         setRequests(filteredRequests);
       } catch (error) {
         toast.error("Error loading data");
@@ -162,16 +167,18 @@ const RequestsPage = () => {
   return (
     <AuthGuard allowedRoles={["admin", "user"]}>
       <div className="p-6 max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-lg">
-          <h1 className="text-3xl font-bold text-white">Request Management</h1>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-0 mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-lg">
+          <h1 className="text-2xl md:text-3xl font-bold text-white text-center md:text-left">
+            Request Management
+          </h1>
           <button
             onClick={() => {
               setSelectedRequest(null);
               setIsModalOpen(true);
             }}
-            className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg 
-              shadow-md hover:shadow-lg transition-all flex items-center gap-2 
-              font-medium text-sm"
+            className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 md:px-6 md:py-3 rounded-lg 
+      shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 
+      font-medium text-xs md:text-sm"
           >
             <PlusIcon className="h-5 w-5 stroke-2" />
             New Request
@@ -184,22 +191,25 @@ const RequestsPage = () => {
           </div>
         ) : requests.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-xl border-2 border-dashed border-gray-200">
-            <p className="text-gray-600 font-medium text-lg">No requests found</p>
+            <p className="text-gray-600 font-medium text-lg">
+              No requests found
+            </p>
           </div>
         ) : (
           <Table<IRequest>
             columns={[
               {
                 header: "Requester",
-                accessor: (item: IRequest) => getRequesterName(item.requestedByUserId),
+                accessor: (item: IRequest) =>
+                  getRequesterName(item.requestedByUserId),
               },
               {
                 header: "Date",
                 accessor: (item: IRequest) =>
-                  new Date(item.requestDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
+                  new Date(item.requestDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
                   }),
               },
               {
@@ -222,7 +232,9 @@ const RequestsPage = () => {
                       <>
                         <Select
                           value={item.requestStatus.toString()}
-                          onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                          onChange={(e) =>
+                            handleStatusChange(item.id, e.target.value)
+                          }
                           options={[
                             { value: "0", label: "Pending" },
                             { value: "1", label: "Approve" },
@@ -230,11 +242,13 @@ const RequestsPage = () => {
                           ]}
                           disabled={item.requestStatus !== 0}
                           className={`w-40 px-2.5 py-1.5 rounded-md border text-sm
-                            ${item.requestStatus === 1 ? 
-                              'border-green-200 bg-green-50 text-green-700' :
-                            item.requestStatus === 2 ? 
-                              'border-red-200 bg-red-50 text-red-700' :
-                              'border-gray-200 bg-gray-50 text-gray-700'}`}
+                            ${
+                              item.requestStatus === 1
+                                ? "border-green-200 bg-green-50 text-green-700"
+                                : item.requestStatus === 2
+                                ? "border-red-200 bg-red-50 text-red-700"
+                                : "border-gray-200 bg-gray-50 text-gray-700"
+                            }`}
                         />
                         <button
                           onClick={() => {
