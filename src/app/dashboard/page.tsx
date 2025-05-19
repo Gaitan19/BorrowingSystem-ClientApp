@@ -44,7 +44,6 @@ export default function Dashboard() {
     if (!loading) loadStats();
   }, [loading, user]);
 
-  if (loading) return <div className="text-center p-8">Loading...</div>;
 
   return (
     <AuthGuard allowedRoles={['admin', 'user']}>
