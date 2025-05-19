@@ -4,6 +4,7 @@ export interface IUser {
   email: string;
   role: string;
   token?: string;
+  password?: string; // Solo para crear o editar
 }
 
 // src/interfaces/index.ts

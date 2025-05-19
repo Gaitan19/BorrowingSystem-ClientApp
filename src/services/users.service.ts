@@ -7,6 +7,11 @@ export const getUsers = async (): Promise<IUser[]> => {
   return response.data;
 };
 
+export const getUserById = async (id: string): Promise<IUser> => {
+  const response = await api.get(`/Users/${id}`);
+  return response.data;
+}
+
 export const createUser = async (userData: {
   name: string;
   email: string;
@@ -17,13 +22,21 @@ export const createUser = async (userData: {
   return response.data;
 };
 
-export const updateUser = async (id: string, userData: {
-  name?: string;
-  email?: string;
-  password?: string;
-  role?: string;
-}): Promise<IUser> => {
-  const response = await api.put(`/Users/${id}`, userData);
+export const updateUser = async (
+  id: string, 
+  userData: {
+    name: string;
+    email: string;
+    role: string;
+    password?: string;
+  }
+): Promise<IUser> => {
+  // Filtrar campos vacíos
+  const payload = Object.fromEntries(
+    Object.entries(userData).filter(([_, v]) => v !== undefined && v !== "")
+  );
+  
+  const response = await api.put(`/Users/${id}`, payload);
   return response.data;
 };
 

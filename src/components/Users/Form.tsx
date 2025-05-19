@@ -1,89 +1,116 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { IUser } from '../../interfaces';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
-import {Button} from '../ui/Button';
-import { toast } from 'react-hot-toast';
+import { Button } from '../ui/Button';
+import { IUser } from '@/interfaces';
 
 interface UserFormProps {
   initialData?: IUser | null;
   onSubmit: (data: {
     name: string;
     email: string;
-    password?: string;
+    password: string;
     role: string;
-  }) => Promise<void>;
+  }) => void;
+  currentUserId?: string;
 }
 
-const UserForm = ({ initialData, onSubmit }: UserFormProps) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: 'user'
-  });
+const UserForm = ({ initialData, onSubmit, currentUserId }: UserFormProps) => {
+  const [name, setName] = useState(initialData?.name || "");
+  const [email, setEmail] = useState(initialData?.email || "");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState(initialData?.role || "user");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      setFormData({
-        name: initialData.name,
-        email: initialData.email,
-        password: '',
-        role: initialData.role
-      });
+      setName(initialData.name);
+      setEmail(initialData.email);
+      setRole(initialData.role);
+      setPassword(initialData.password || "");
     }
   }, [initialData]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await onSubmit({
-        ...formData,
-        password: formData.password || undefined
-      });
-      toast.success(`User ${initialData ? 'updated' : 'created'} successfully`);
-    } catch (error) {
-      toast.error(`Error ${initialData ? 'updating' : 'creating'} user`);
+    
+    if (!initialData && !password.trim()) {
+      alert("Password is required for new users");
+      return;
     }
+
+    onSubmit({
+      name,
+      email,
+      password,
+      role: initialData?.id === currentUserId ? "user" : role
+    });
+  };
+
+  const handlePasswordFocus = () => {
+    if (password === "********") {
+      setPassword("");
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Input
         label="Name"
-        value={formData.name}
-        onChange={(e) => setFormData({...formData, name: e.target.value})}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         required
       />
       <Input
         label="Email"
         type="email"
-        value={formData.email}
-        onChange={(e) => setFormData({...formData, email: e.target.value})}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         required
       />
-      <Input
-        label="Password"
-        type="password"
-        value={formData.password}
-        onChange={(e) => setFormData({...formData, password: e.target.value})}
-        placeholder={initialData ? 'Leave blank to keep current' : ''}
-        required={!initialData}
-      />
-      <Select
-        label="Role"
-        options={[
-          { value: 'admin', label: 'Admin' },
-          { value: 'user', label: 'User' }
-        ]}
-        value={formData.role}
-        onChange={(e) => setFormData({...formData, role: e.target.value})}
-        required
-      />
+      <div className="relative">
+        <Input
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required={!initialData}
+          onFocus={handlePasswordFocus}
+        />
+        <button
+          type="button"
+          onClick={togglePasswordVisibility}
+          className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 transition-colors"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? (
+            <EyeSlashIcon className="h-5 w-5" />
+          ) : (
+            <EyeIcon className="h-5 w-5" />
+          )}
+        </button>
+      </div>
+      {initialData?.id !== currentUserId && (
+        <Select
+          label="Role"
+          options={[
+            { value: "admin", label: "Admin" },
+            { value: "user", label: "User" }
+          ]}
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          required
+        />
+      )}
       <Button type="submit" className="w-full">
-        {initialData ? 'Update User' : 'Create User'}
+        {initialData ? "Update User" : "Create User"}
       </Button>
     </form>
   );

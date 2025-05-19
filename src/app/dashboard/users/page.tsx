@@ -39,25 +39,49 @@ const UsersPage = () => {
     loadUsers();
   }, []);
 
-  const handleSubmit = async (data: {
+  const handleSubmit = async (formData: {
     name: string;
     email: string;
-    password?: string;
+    password: string;
     role: string;
   }) => {
     try {
       if (selectedUser) {
-        const updatedUser = await updateUser(selectedUser.id, data);
-        setUsers((prev) =>
-          prev.map((user) => (user.id === selectedUser.id ? updatedUser : user))
-        );
+        // Construir payload dinámico tipado
+        const payload: {
+          name: string;
+          email: string;
+          role: string;
+          password: string;
+        } = {
+          name: formData.name,
+          email: formData.email,
+          role: formData.role,
+          password: formData.password
+          
+        };
+
+        
+        const updatedUser = await updateUser(selectedUser.id, payload);
+
+        setUsers(prev => prev.map(user => 
+          user.id === selectedUser.id ? updatedUser : user
+        ));
         toast.success("User updated successfully");
       } else {
+        // Validar contraseña para nuevo usuario
+        if (!formData.password || formData.password.trim() === "") {
+          toast.error("Password is required for new users");
+          return;
+        }
+        
         const newUser = await createUser({
-          ...data,
-          password: data.password ?? "",
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
         });
-        setUsers((prev) => [...prev, newUser]);
+        setUsers(prev => [...prev, newUser]);
         toast.success("User created successfully");
       }
       setIsModalOpen(false);
@@ -75,7 +99,7 @@ const UsersPage = () => {
     if (confirm("Are you sure you want to delete this user?")) {
       try {
         await deleteUser(id);
-        setUsers((prev) => prev.filter((user) => user.id !== id));
+        setUsers(prev => prev.filter(user => user.id !== id));
         toast.success("User deleted successfully");
       } catch (error) {
         toast.error("Error deleting user");
@@ -93,6 +117,7 @@ const UsersPage = () => {
               setSelectedUser(null);
               setIsModalOpen(true);
             }}
+            variant="primary"
           >
             + New User
           </Button>
@@ -130,7 +155,11 @@ const UsersPage = () => {
           onClose={() => setIsModalOpen(false)}
           title={selectedUser ? "Edit User" : "Create New User"}
         >
-          <UserForm initialData={selectedUser} onSubmit={handleSubmit} />
+          <UserForm 
+            initialData={selectedUser} 
+            onSubmit={handleSubmit}
+            currentUserId={currentUser?.id}
+          />
         </Modal>
       </div>
     </AuthGuard>
