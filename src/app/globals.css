@@ -16,3 +16,33 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-500;
 }
+
+select {
+  @apply bg-white border border-gray-300 rounded-md shadow-sm py-1 px-2 text-sm;
+}
+
+button.small {
+  @apply px-2 py-1 text-sm;
+}
+
+
+/* Asegura que el contenido principal no se oculte detrás del sidebar */
+main {
+  margin-left: 16rem; /* 64 * 0.25rem = 16rem */
+}
+
+/* Estilos para transiciones suaves */
+.sidebar-enter {
+  transform: translateX(-100%);
+}
+.sidebar-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+.sidebar-exit {
+  transform: translateX(0);
+}
+.sidebar-exit-active {
+  transform: translateX(-100%);
+  transition: transform 300ms ease-in-out;
+}

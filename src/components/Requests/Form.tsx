@@ -45,8 +45,8 @@ const RequestForm = ({ initialData, items, onSubmit }: RequestFormProps) => {
     onSubmit({
       description,
       requestedByUserId: initialData?.requestedByUserId || '',
-      requestStatus: initialData?.requestStatus || 'Pending',
-      returnStatus: initialData?.returnStatus || 'Pending',
+      requestStatus: initialData?.requestStatus ?? 0,
+      returnStatus: initialData?.returnStatus ?? 0,
       requestDate: initialData?.requestDate || new Date().toISOString(),
       requestItems
     });

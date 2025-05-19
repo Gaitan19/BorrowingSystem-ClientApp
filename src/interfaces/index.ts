@@ -6,12 +6,13 @@ export interface IUser {
   token?: string;
 }
 
+// src/interfaces/index.ts
 export interface IRequest {
   id: string;
   description: string;
   requestedByUserId: string;
-  requestStatus: 'Pending' | 'Approved' | 'Rejected';
-  returnStatus: 'Pending' | 'Returned';
+  requestStatus: 0 | 1 | 2; // Pending | Approved | Rejected
+  returnStatus: 0 | 1; // Pending | Returned
   requestDate: string;
   requestItems: IRequestItem[];
 }

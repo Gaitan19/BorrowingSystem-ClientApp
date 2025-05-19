@@ -28,7 +28,7 @@ export default function Dashboard() {
         ]);
 
         const pendingRequests = requests.filter(
-          r => r.requestStatus === 'Pending'
+          r => r.requestStatus === 0
         ).length;
 
         setStats({
@@ -49,9 +49,7 @@ export default function Dashboard() {
   return (
     <AuthGuard allowedRoles={['admin', 'user']}>
       <div className="min-h-screen bg-gray-100">
-        <Sidebar />
         <div className="ml-64 p-4">
-          <Header />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <StatCard 
               title="Total Requests" 
