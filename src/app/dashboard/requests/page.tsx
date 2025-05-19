@@ -162,16 +162,16 @@ const RequestsPage = () => {
   return (
     <AuthGuard allowedRoles={["admin", "user"]}>
       <div className="p-6 max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Request Management</h1>
+        <div className="flex justify-between items-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 p-6 rounded-xl shadow-lg">
+          <h1 className="text-3xl font-bold text-white">Request Management</h1>
           <button
             onClick={() => {
               setSelectedRequest(null);
               setIsModalOpen(true);
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg 
-              shadow-md hover:shadow-lg transition-all flex items-center gap-2
-              text-sm font-medium"
+            className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg 
+              shadow-md hover:shadow-lg transition-all flex items-center gap-2 
+              font-medium text-sm"
           >
             <PlusIcon className="h-5 w-5 stroke-2" />
             New Request
