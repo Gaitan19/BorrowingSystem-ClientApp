@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Header from '@/components/Layout/Header';
 import Sidebar from '@/components/Layout/Sidebar';
 import { AuthProvider } from '@/context/AuthContext';
+import { SidebarProvider } from '@/context/SidebarContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,15 +21,17 @@ export default function DashboardLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="flex min-h-screen">
-            <Sidebar />
-            <main className="flex-1 ml-64">
-              <Header />
-              <div className="p-4">
-                {children}
-              </div>
-            </main>
-          </div>
+          <SidebarProvider>
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <main className="flex-1 min-w-0 md:ml-64 overflow-x-hidden">
+                <Header />
+                <div className="p-2 md:p-4 w-full max-w-full overflow-x-auto">
+                  {children}
+                </div>
+              </main>
+            </div>
+          </SidebarProvider>
         </AuthProvider>
       </body>
     </html>

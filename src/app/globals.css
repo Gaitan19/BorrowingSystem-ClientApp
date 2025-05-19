@@ -26,10 +26,7 @@ button.small {
 }
 
 
-/* Asegura que el contenido principal no se oculte detrás del sidebar */
-main {
-  margin-left: 16rem; /* 64 * 0.25rem = 16rem */
-}
+
 
 /* Estilos para transiciones suaves */
 .sidebar-enter {
