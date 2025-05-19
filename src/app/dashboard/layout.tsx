@@ -18,8 +18,6 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
         <AuthProvider>
           <SidebarProvider>
             <div className="flex min-h-screen">
@@ -33,7 +31,5 @@ export default function DashboardLayout({
             </div>
           </SidebarProvider>
         </AuthProvider>
-      </body>
-    </html>
   );
 }
