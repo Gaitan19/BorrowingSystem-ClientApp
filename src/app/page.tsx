@@ -18,7 +18,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Streamline Your Inventory Management with
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block mt-3">
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block mt-3 leading-normal">
               BorrowSystem Pro
             </span>
           </h1>
