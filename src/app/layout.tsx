@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Borrowing System',
   description: 'Management system for borrowing items',
+  icons: "/management-icon.png"
 };
 
 export default function RootLayout({
